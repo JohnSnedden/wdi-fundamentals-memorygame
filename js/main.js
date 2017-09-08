@@ -32,17 +32,30 @@ var checkForMatch = function() {
   }
 }
 
-var flipCard = function(cardId) {
+var flipCard = function() {
+  var cardId = this.getAttribute('data-id');
   console.log("User flipped " + cards[cardId].rank);  // log message of card flipped
   console.log(cards[cardId].cardImage);
   console.log(cards[cardId].suit);
 
   cardsInPlay.push(cards[cardId].rank)  // add flipped card to cards in play array
 
+  this.setAttribute('src', cards[cardId].cardImage);
+
   if (cardsInPlay.length === 2) {  // check to see if two cards have been chosen
     checkForMatch();
   }
 }
 
-flipCard(0);
-flipCard(2);
+createBoard = function() {
+  for (i = 0; i < cards.length; i++) {
+    var cardElement = document.createElement('img');
+    cardElement.setAttribute('src', 'images/back.png');
+    cardElement.setAttribute('data-id', i);
+
+    cardElement.addEventListener('click', flipCard);  // trigger click event
+    document.getElementById('game-board').appendChild(cardElement);  // add card to board
+  }
+}
+
+createBoard();
